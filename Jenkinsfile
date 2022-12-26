@@ -9,7 +9,7 @@ node {
         sh 'sudo docker version'
         sh 'sudo docker build -t my-java-app .'
         sh 'sudo docker image list'
-        sh 'sudo docker tag my-java-app anhdo98/my-java-app:v3'
+        sh 'sudo docker tag my-java-app anhdo98/my-java-app:v4'
     }
 
     withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
@@ -17,6 +17,10 @@ node {
     }
 
     stage("Push Image to Docker Hub"){
-        sh 'sudo docker push  anhdo98/my-java-app:v3'
+        sh 'sudo docker push  anhdo98/my-java-app:v4'
+    }
+
+    stage("Run docker container"){
+	sh 'sudo docker run my-java-app:latest'
     }
 } 

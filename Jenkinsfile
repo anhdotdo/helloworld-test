@@ -23,4 +23,11 @@ node {
     stage("Run docker container"){
 	sh 'sudo docker run my-java-app:latest'
     }
+	
+    stage("Deploy container into remote server"){
+	def dockerRun = 'docker run -p 8080:8080 -d --name my-app anhdo98/my-java-app:v4'
+	sshagent(['dev-server']){
+		sh "ssh -o StrictHostKeyChecking=no ec2-user@52.79.49.13 ${dockerRun}"
+	}
+    }
 } 
